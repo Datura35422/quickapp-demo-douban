@@ -1,6 +1,7 @@
 import nativeFetch from '@system.fetch'
 
 const baseUrl = 'https://api.douban.com'
+const baseUrl2 = 'https://douban.uieee.com'
 /**
  * 请求
  * @param params {header, token, data}
@@ -15,7 +16,7 @@ const qaRequest = async (params = {}, url, method = 'GET') => {
       // header: {
       //   'Content-Type': 'application/json'
       // },
-      url: baseUrl + url,
+      url: baseUrl2 + url,
       responseType: 'json',
       method: method,
       data: params

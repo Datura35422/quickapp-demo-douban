@@ -1,42 +1,42 @@
-<import name="music-list" src="../list/index"></import>
+<import name="book-list" src="../list/index"></import>
 
 <template>
   <div class="container">
     <tabs class="tab-wrap">
       <tab-bar mode="fixed">
-        <div for="{{tabMusic}}" @click="handleTab($idx)"><text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text></div>
+        <div for="{{tabBook}}" @click="handleTab($idx)"><text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text></div>
       </tab-bar>
     </tabs>
     <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
-      <music-list list="{{list}}" load-more="{{loadMore}}"></music-list>
+      <book-list list="{{list}}" load-more="{{loadMore}}"></book-list>
     </refresh>
   </div>
 </template>
 
 <script>
 import prompt from '@system.prompt'
-import { getList } from '../../Common/api/music'
+import { getList } from '../../Common/api/book'
 
 export default {
   data: {
     start: 0,
     list: [],
-    loadMore: true,
     isRefreshing: false,
-    tabMusic: [{
+    loadMore: true,
+    tabBook: [{
       index: 0,
-      text: '华语'
+      text: '小说'
     }, {
       index: 1,
-      text: '流行'
+      text: '历史'
     }, {
       index: 2,
-      text: '民谣'
+      text: '传记'
     }],
     curTab: {}
   },
   async onInit() {
-    this.curTab = this.tabMusic[0]
+    this.curTab = this.tabBook[0]
     await this.loadData()
     this.$on('toDetail', this.listenerToDetail)
   },
@@ -45,11 +45,11 @@ export default {
   },
   async loadData () {
     const list = await getList({
-      count: 20,
+      count: 21,
       tag: this.curTab.text
     })
-    this.list = this.list.concat(list.musics)
-    this.start += list.count,
+    this.list = this.list.concat(list.books)
+    this.start += list.count
     this.loadMore = this.start < list.total
   },
   async refresh (e) {
@@ -60,17 +60,17 @@ export default {
       message: '刷新完成'
     })
   },
+  handleTab (index) {
+    this.curTab = this.tabBook[index]
+    this.initData()
+    this.loadData()
+  },
   initData () {
     Object.assign(this, {
       start: 0,
       list: [],
       loadMore: true
     })
-  },
-  handleTab (index) {
-    this.curTab = this.tabMusic[index]
-    this.initData()
-    this.loadData()
   }
 }
 </script>

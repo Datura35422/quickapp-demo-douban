@@ -1,14 +1,24 @@
 <import name="movie" src="./movie/index.ux"></import>
+<import name="music" src="./music/index.ux"></import>
+<import name="book" src="./book/index.ux"></import>
  
 <template>
   <!-- template里只能有一个根节点 -->
   <div class="container">
     <tabs class="tab-wrapper">
       <tab-content>
-         <movie></movie>
+        <block if="{{curIndex === 0}}">
+          <movie></movie>
+        </block>
+        <block elif="{{curIndex === 1}}">
+          <music></music>
+        </block>
+        <block elif="{{curIndex === 2}}">
+          <book></book>
+        </block>
       </tab-content>
       <tab-bar class="tab-bar">
-        <div for="{{tabList}}" class="tab-item">
+        <div for="{{tabList}}" class="tab-item" @click="handleClick($idx)">
           <image class="tab-image" src="{{curIndex === $idx ? $item.activeIcon : $item.icon}}"></image>
           <text>{{$item.text}}</text>
         </div>
@@ -38,6 +48,9 @@ export default {
       icon: '../Common/assets/icons/book.png',
       activeIcon: '../Common/assets/icons/book-pink.png'
     }]
+  },
+  handleClick (index) {
+    this.curIndex = index
   }
 }
 </script>

@@ -2,8 +2,13 @@
 
 <template>
   <div class="container">
+    <tabs class="tab-wrap">
+      <tab-bar mode="fixed">
+        <div for="{{tabMovie}}" @click="handleTab($idx)"><text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text></div>
+      </tab-bar>
+    </tabs>
     <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
-      <movie-list list="{{list.subjects}}"></movie-list>
+      <movie-list list="{{list}}" load-more="{{loadMore}}" onscrollbottom="scrollbottom"></movie-list>
     </refresh>
   </div>
 </template>
@@ -11,14 +16,28 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
-import { getTopList } from '../../Common/api/movie'
+import { getTopList, getTheatersList, getSoonList } from '../../Common/api/movie'
 
 export default {
   data: {
-    list: {},
-    isRefreshing: false
+    start: 0,
+    list: [],
+    loadMore: true,
+    isRefreshing: false,
+    tabMovie: [{
+      index: 0,
+      text: 'Top250'
+    }, {
+      index: 1,
+      text: '正在热映'
+    }, {
+      index: 2,
+      text: '即将上映'
+    }],
+    curTab: {}
   },
   async onInit() {
+    this.curTab = this.tabMovie[0]
     await this.loadData()
     this.$on('toDetail', this.listenerToDetail)
   },
@@ -28,19 +47,65 @@ export default {
       params: { id: event.detail.id }
     })
   },
-  async loadData () {
-    const list = await getTopList({count: 20})
-    this.list = list
+  loadData() {
+    if (this.curTab.index === 0) {
+      this.loadTopData()
+    } else if (this.curTab.index === 1) {
+      this.loadHotData()
+    } else if (this.curTab.index === 2) {
+      this.loadSoonData()
+    }
+  },
+  async loadTopData () {
+    const list = await getTopList({
+      count: 21, 
+      start: this.start
+    })
+    this.assignData(list)
+  },
+  async loadHotData () {
+    const list = await getTheatersList({
+      count: 21, 
+      start: this.start
+    })
+    this.assignData(list)
+  },
+  async loadSoonData () {
+    const list = await getSoonList({
+      count: 21, 
+      start: this.start
+    })
+    this.assignData(list)
   },
   async refresh (e) {
-    const self = this
     // 更新刷新状态（属性refreshing的值从false改为true会触发refresh组件的状态更新，反之亦然）
-    self.isRefreshing = e.refreshing
+    this.isRefreshing = e.refreshing
     await this.loadData()
-    self.isRefreshing = false // 关闭刷新状态
+    this.isRefreshing = false // 关闭刷新状态
     prompt.showToast({
       message: '刷新完成'
     })
+  },
+  initData () {
+    Object.assign(this, {
+      start: 0,
+      list: [],
+      loadMore: true
+    })
+  },
+  assignData (list) {
+    this.list = this.list.concat(list.subjects)
+    this.start += list.count
+    this.loadMore = this.start < list.total
+    console.log(this.list)
+  },
+  scrollbottom () {
+    this.loadData()
+  },
+  handleTab (index) {
+    this.curTab = this.tabMovie[index]
+    this.initData()
+    this.loadData()
   }
 }
 </script>
@@ -50,5 +115,14 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .tab-wrap{
+    height: 50px; 
+    .tab-text{
+      color: #61BFAD;
+    }
+    .active{
+      color: #ff8b8b;
+    }
   }
 </style>

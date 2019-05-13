@@ -9,7 +9,8 @@
     { "name": "system.prompt" },
     { "name": "system.router" },
     { "name": "system.shortcut" },
-    { "name": "system.fetch" }
+    { "name": "system.fetch" },
+    { "name": "system.webview" }
   ],
   "permissions": [
     { "origin": "*" }
@@ -45,7 +46,8 @@
       },
       "Movie": {
         "titleBarText": "电影详情",
-        "menu": false
+        "menu": false,
+        "titleBar": false
       },
       "DemoDetail": {
         "titleBarText": "详情页"

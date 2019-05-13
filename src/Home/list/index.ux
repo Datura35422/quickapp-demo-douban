@@ -1,11 +1,17 @@
 <import name="cover" src="../../Common/components/cover/index.ux"></import>
  
 <template>
-  <!-- template里只能有一个根节点 -->
   <list class="list-wrapper" style="columns: 3">
     <block for="{{list}}">
       <list-item type="cover" class="list-item">
         <cover mess="{{$item}}"></cover>
+      </list-item>
+    </block>
+    <!-- 加载更多 -->
+    <block if="{{isMore}}">
+      <list-item type="loadMore" class="load-more" style="column-span:3">
+        <progress type="circular"></progress>
+        <text>加载更多</text>
       </list-item>
     </block>
   </list>
@@ -17,7 +23,22 @@ export default {
   props: {
     list: {
       default: []
+    },
+    loadMore: {
+      default: false
     }
   }
 }
 </script>
+
+<style lang="less">
+  .load-more {
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border-color: #bbbbbb;
+    text{
+      padding-left: 10px;
+    }
+  }
+</style>
