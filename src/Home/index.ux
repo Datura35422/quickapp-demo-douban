@@ -3,17 +3,16 @@
 <import name="book" src="./book/index.ux"></import>
  
 <template>
-  <!-- template里只能有一个根节点 -->
   <div class="container">
     <tabs class="tab-wrapper">
       <tab-content>
-        <block if="{{curIndex === 0}}">
+        <block show="{{curIndex === 0}}">
           <movie></movie>
         </block>
-        <block elif="{{curIndex === 1}}">
+        <block show="{{curIndex === 1}}">
           <music></music>
         </block>
-        <block elif="{{curIndex === 2}}">
+        <block show="{{curIndex === 2}}">
           <book></book>
         </block>
       </tab-content>
@@ -35,22 +34,28 @@ export default {
     tabList: [{
       index: 0,
       text: '电影',
+      // render: true,
       icon: '../Common/assets/icons/film.png',
       activeIcon: '../Common/assets/icons/film-pink.png'
     }, {
       index: 1,
       text: '音乐',
+      // render: false,
       icon: '../Common/assets/icons/music.png',
       activeIcon: '../Common/assets/icons/music-pink.png'
     }, {
       index: 2,
       text: '书籍',
+      // render: false,
       icon: '../Common/assets/icons/book.png',
       activeIcon: '../Common/assets/icons/book-pink.png'
     }]
   },
   handleClick (index) {
     this.curIndex = index
+    // let tabList = this.tabList
+    // tabList[index].render = true
+    // this.tabList = tabList // 更新不及时
   }
 }
 </script>

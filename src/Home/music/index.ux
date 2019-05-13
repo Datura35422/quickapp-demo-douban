@@ -4,7 +4,9 @@
   <div class="container">
     <tabs class="tab-wrap">
       <tab-bar mode="fixed">
-        <div for="{{tabMusic}}" @click="handleTab($idx)"><text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text></div>
+        <div for="{{tabMusic}}" @click="handleTab($idx)" class="tab-btn">
+          <text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text>
+        </div>
       </tab-bar>
     </tabs>
     <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
@@ -90,7 +92,9 @@ export default {
     justify-content: center;
   }
   .tab-wrap{
-    height: 50px; 
+    .tab-btn{
+      padding: 20px 20px;
+    }
     .tab-text{
       color: #61BFAD;
     }
