@@ -1,0 +1,54 @@
+<import name="music-list" src="../list/index"></import>
+
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="container">
+    <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
+      <music-list list="{{list.subjects}}"></music-list>
+    </refresh>
+  </div>
+</template>
+
+<script>
+import prompt from '@system.prompt'
+import { getList } from '../../Common/api/music'
+
+export default {
+  data: {
+    list: {},
+    isRefreshing: false
+  },
+  async onInit() {
+    await this.loadData()
+    this.$on('toDetail', this.listenerToDetail)
+  },
+  listenerToDetail () { // event
+    // console.log('movie toDetail', event.detail)
+  },
+  async loadData () {
+    const list = await getList({
+      count: 20,
+      tag: '华语'
+    })
+    this.list = list
+  },
+  async refresh (e) {
+    const self = this
+    // 更新刷新状态（属性refreshing的值从false改为true会触发refresh组件的状态更新，反之亦然）
+    self.isRefreshing = e.refreshing
+    await this.loadData()
+    self.isRefreshing = false // 关闭刷新状态
+    prompt.showToast({
+      message: '刷新完成'
+    })
+  }
+}
+</script>
+
+<style lang="less">
+  .container{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

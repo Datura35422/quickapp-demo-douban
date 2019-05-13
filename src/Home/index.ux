@@ -1,0 +1,77 @@
+<import name="movie" src="./movie/index.ux"></import>
+ 
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="container">
+    <tabs class="tab-wrapper">
+      <tab-content>
+         <movie></movie>
+      </tab-content>
+      <tab-bar class="tab-bar">
+        <div for="{{tabList}}" class="tab-item">
+          <image class="tab-image" src="{{curIndex === $idx ? $item.activeIcon : $item.icon}}"></image>
+          <text>{{$item.text}}</text>
+        </div>
+      </tab-bar>
+    </tabs>
+  </div>
+</template>
+
+<script>
+
+export default {
+  private: {
+    curIndex: 0,
+    tabList: [{
+      index: 0,
+      text: '电影',
+      icon: '../Common/assets/icons/film.png',
+      activeIcon: '../Common/assets/icons/film-pink.png'
+    }, {
+      index: 1,
+      text: '音乐',
+      icon: '../Common/assets/icons/music.png',
+      activeIcon: '../Common/assets/icons/music-pink.png'
+    }, {
+      index: 2,
+      text: '书籍',
+      icon: '../Common/assets/icons/book.png',
+      activeIcon: '../Common/assets/icons/book-pink.png'
+    }]
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .container{
+    flex-direction: column;
+    background-color: #f1f1f1;
+  }
+
+  .tab-wrapper{
+    flex-direction: column;
+  }
+
+  .tab-bar{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+    font-size: 16px;
+    background-color: #61BFAD;
+    .tab-item{
+      display: flex;
+      align-items: center;
+      text{
+        color: #F9F7E8;
+      }
+      .active{
+        color: #ff8b8b;
+      }
+    }
+    .tab-image{
+      width: 40px;
+      height: $width;
+      margin-right: 10px;
+    }
+  }
+</style>

@@ -1,0 +1,23 @@
+<import name="cover" src="../../Common/components/cover/index.ux"></import>
+ 
+<template>
+  <!-- template里只能有一个根节点 -->
+  <list class="list-wrapper" style="columns: 3">
+    <block for="{{list}}">
+      <list-item type="cover" class="list-item">
+        <cover mess="{{$item}}"></cover>
+      </list-item>
+    </block>
+  </list>
+</template>
+
+<script>
+
+export default {
+  props: {
+    list: {
+      default: []
+    }
+  }
+}
+</script>
