@@ -27,7 +27,10 @@
       "Movie": {
         "component": "index"
       },
-      "DemoDetail": {
+      "Music": {
+        "component": "index"
+      },
+      "Book": {
         "component": "index"
       },
       "About": {
@@ -49,8 +52,15 @@
         "menu": false,
         "titleBar": false
       },
-      "DemoDetail": {
-        "titleBarText": "详情页"
+      "Music": {
+        "titleBarText": "音乐详情",
+        "menu": false,
+        "titleBar": false
+      },
+      "Book": {
+        "titleBarText": "图书详情",
+        "menu": false,
+        "titleBar": false
       },
       "About": {
         "menu": false

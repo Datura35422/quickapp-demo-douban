@@ -55,8 +55,7 @@ import webview from '@system.webview'
 import { getDetail } from '../Common/api/movie'
 export default {
   private: { // 不允许被覆盖
-    detail: {},
-    directors: []
+    detail: {}
   },
   protected: { // 允许被应用内部页面请求传递的数据覆盖，不允许被应用外部请求传递的数据覆盖
     id: 0
@@ -70,7 +69,6 @@ export default {
       id: this.id
     })
     this.detail = detail
-    this.directors = detail.directors
   },
   toDouban() { // web
     webview.loadUrl({

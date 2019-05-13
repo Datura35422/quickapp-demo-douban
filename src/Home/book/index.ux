@@ -15,6 +15,7 @@
 
 <script>
 import prompt from '@system.prompt'
+import router from '@system.router'
 import { getList } from '../../Common/api/book'
 
 export default {
@@ -41,7 +42,10 @@ export default {
     this.$on('toDetail', this.listenerToDetail)
   },
   listenerToDetail (event) {
-    console.log('movie toDetail', event.detail)
+    router.push({
+      uri: '/Music',
+      params: { id: event.detail.id }
+    })
   },
   async loadData () {
     const list = await getList({

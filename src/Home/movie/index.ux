@@ -4,11 +4,13 @@
   <div class="container">
     <tabs class="tab-wrap">
       <tab-bar mode="fixed">
-        <div for="{{tabMovie}}" @click="handleTab($idx)"><text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text></div>
+        <div for="{{tabMovie}}" @click="handleTab($idx)">
+          <text class="tab-text {{curTab.index === $item.index ? 'active': ''}}">{{$item.text}}</text>
+        </div>
       </tab-bar>
     </tabs>
     <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
-      <movie-list list="{{list}}" load-more="{{loadMore}}" onscrollbottom="scrollbottom"></movie-list>
+      <movie-list list="{{list}}" load-more="{{loadMore}}" @scrollbottom="scrollbottom"></movie-list>
     </refresh>
   </div>
 </template>
@@ -94,10 +96,9 @@ export default {
     })
   },
   assignData (list) {
-    this.list = this.list.concat(list.subjects)
+    this.list = list.subjects && this.list.concat(list.subjects)
     this.start += list.count
     this.loadMore = this.start < list.total
-    console.log(this.list)
   },
   scrollbottom () {
     this.loadData()

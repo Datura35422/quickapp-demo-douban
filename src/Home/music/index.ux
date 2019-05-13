@@ -8,13 +8,14 @@
       </tab-bar>
     </tabs>
     <refresh offset="132px" @refresh="refresh" refreshing="{{isRefreshing}}">
-      <music-list list="{{list}}" load-more="{{loadMore}}"></music-list>
+      <music-list list="{{list}}" load-more="{{loadMore}}" @scrollbottom="scrollbottom"></music-list>
     </refresh>
   </div>
 </template>
 
 <script>
 import prompt from '@system.prompt'
+import router from '@system.router'
 import { getList } from '../../Common/api/music'
 
 export default {
@@ -41,11 +42,15 @@ export default {
     this.$on('toDetail', this.listenerToDetail)
   },
   listenerToDetail (event) {
-    console.log('movie toDetail', event.detail)
+    router.push({
+      uri: '/Music',
+      params: { id: event.detail.id }
+    })
   },
   async loadData () {
     const list = await getList({
-      count: 20,
+      count: 21,
+      start: this.start,
       tag: this.curTab.text
     })
     this.list = this.list.concat(list.musics)
@@ -70,6 +75,9 @@ export default {
   handleTab (index) {
     this.curTab = this.tabMusic[index]
     this.initData()
+    this.loadData()
+  },
+  scrollbottom () {
     this.loadData()
   }
 }

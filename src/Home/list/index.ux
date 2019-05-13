@@ -3,12 +3,12 @@
 <template>
   <list class="list-wrapper" style="columns: 3">
     <block for="{{list}}">
-      <list-item type="cover" class="list-item">
+      <list-item if="{{$item}}" type="cover" class="list-item">
         <cover mess="{{$item}}"></cover>
       </list-item>
     </block>
     <!-- 加载更多 -->
-    <block if="{{isMore}}">
+    <block if="{{loadMore}}">
       <list-item type="loadMore" class="load-more" style="column-span:3">
         <progress type="circular"></progress>
         <text>加载更多</text>
@@ -31,7 +31,13 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+  .list-wrapper {
+    padding-left: 30px;
+  }
+  .list-item{
+    margin-bottom: 20px;
+  }
   .load-more {
     justify-content: center;
     align-items: center;

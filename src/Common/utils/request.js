@@ -16,7 +16,7 @@ const qaRequest = async (params = {}, url, method = 'GET') => {
       // header: {
       //   'Content-Type': 'application/json'
       // },
-      url: baseUrl2 + url,
+      url: baseUrl + url,
       responseType: 'json',
       method: method,
       data: params
