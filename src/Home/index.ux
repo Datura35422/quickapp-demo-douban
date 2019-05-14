@@ -4,22 +4,16 @@
  
 <template>
   <div class="container">
-    <tabs class="tab-wrapper">
+    <tabs class="tab-wrapper" onchange="changeTabactive">
       <tab-content>
-        <block show="{{curIndex === 0}}">
-          <movie></movie>
-        </block>
-        <block show="{{curIndex === 1}}">
-          <music></music>
-        </block>
-        <block show="{{curIndex === 2}}">
-          <book></book>
-        </block>
+        <movie if="{{tabList[0].render}}"></movie>
+        <music if="{{tabList[1].render}}"></music>
+        <book if="{{tabList[2].render}}"></book>
       </tab-content>
       <tab-bar class="tab-bar">
-        <div for="{{tabList}}" class="tab-item" @click="handleClick($idx)">
+        <div for="{{tabList}}" class="tab-item">
           <image class="tab-image" src="{{curIndex === $idx ? $item.activeIcon : $item.icon}}"></image>
-          <text>{{$item.text}}</text>
+          <text class="{{curIndex === $idx ? 'active' : ''}}">{{$item.text}}</text>
         </div>
       </tab-bar>
     </tabs>
@@ -34,28 +28,29 @@ export default {
     tabList: [{
       index: 0,
       text: '电影',
-      // render: true,
+      render: true,
       icon: '../Common/assets/icons/film.png',
       activeIcon: '../Common/assets/icons/film-pink.png'
     }, {
       index: 1,
       text: '音乐',
-      // render: false,
+      render: false,
       icon: '../Common/assets/icons/music.png',
       activeIcon: '../Common/assets/icons/music-pink.png'
     }, {
       index: 2,
       text: '书籍',
-      // render: false,
+      render: false,
       icon: '../Common/assets/icons/book.png',
       activeIcon: '../Common/assets/icons/book-pink.png'
     }]
   },
-  handleClick (index) {
-    this.curIndex = index
-    // let tabList = this.tabList
-    // tabList[index].render = true
-    // this.tabList = tabList // 更新不及时
+  changeTabactive (e) {
+    console.log('changeTabactive', e)
+    this.curIndex = e.index
+    let tabList = this.tabList
+    tabList[e.index].render = true
+    this.tabList = tabList // 更新不及时
   }
 }
 </script>
